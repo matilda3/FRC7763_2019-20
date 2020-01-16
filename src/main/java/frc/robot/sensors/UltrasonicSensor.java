@@ -34,9 +34,10 @@ public class UltrasonicSensor {
         pos = pos < (history.length - 1) ? pos + 1 : 0;
     }
 
-    // For use with MB1010 LV-MaxSonar-EZ1 sensor. Distance returned is in cm.
+    // For use with MB1013 LV-MaxSonar-EZ1 sensor. Distance returned is in cm.
     private static double voltsToDist(double volts) {
-        double dist = (3.0 * 5.0 * (volts / (5.0 / 1024.0))) / 10;  // * 3.0 is for calibration. not sure why it needs this?
+        //double dist = (3.0 * 5.0 * (volts / (5.0 / 1024.0))) / 10;  // * 3.0 is for calibration. not sure why it needs this?
+        double dist = volts / .097;//I did math to get this calibration
         System.out.print(volts);
         System.out.print(", ");
         System.out.println(dist);
