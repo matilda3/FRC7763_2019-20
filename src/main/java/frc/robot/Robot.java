@@ -31,24 +31,34 @@ public class Robot extends TimedRobot {
     Telemetry.init();
   }
   @Override
-  public void autonomousInit()  {
+  public void autonomousInit()  {//ADD more timers? or use while?
     RobotMap.timer.reset();
     RobotMap.timer.start();
+    //int range = RobotMap.distSensor.
   }
 
   @Override
   public void autonomousPeriodic() {
-    //drive for 2s (hopefully)
-    //use below for 90 deg turn
-    /*if(RobotMap.timer.get() < 1.25){
-      RobotMap.diffDrive.arcadeDrive(0.0, 0.5);
-    }*/
-    if(RobotMap.timer.get() < 0.4){
-      RobotMap.diffDrive.arcadeDrive(0.0, 0.75);
+    //competition autonomous
+    if(RobotMap.timer.get() < 15.0){
+      //go forward for 1 second - may change
+      while(RobotMap.timer.get() < 1.0){
+        RobotMap.diffDrive.arcadeDrive(-0.5, 0.0);//ADD numbers for speed/rot
+      }
+      //turns it 90 degrees. CHECK direction -/+
+      while(RobotMap.timer.get() < 2.0 && RobotMap.timer.get() > 1.0){
+        RobotMap.diffDrive.arcadeDrive(-0.7, -0.5);
+      }
+      //middle of hole is ca 250cm away from the wall (est.)
+      while(RobotMap.distSensor.read() > 2.5){
+        //also PLACEHOLDER we can't test speed / distance yet
+        //drive forward until 250 cm from wall
+        RobotMap.diffDrive.arcadeDrive(-0.5, 0.0);
+      }
+      //RobotMap.DiffDrive.arcadeDrive()
     }
-    else{
-      RobotMap.diffDrive.stopMotor();
-    }
+
+    RobotMap.diffDrive.arcadeDrive(0.0, 0.0);
   }
 
   @Override
@@ -70,6 +80,7 @@ public class Robot extends TimedRobot {
         RobotMap.arcade_turnController.drive(RobotMap.joystick.getRawAxis(0)));
     }
     RobotMap.liftMotor.set(RobotMap.liftController.update(RobotMap.joystick.getRawButton(0)));
+    //RobotMap.conveyorMotor.set(RobotMap.conveyorController.update(RobotMap.joystick.getRawButton(2)));//button 2 conveyor
   }
 
   @Override
