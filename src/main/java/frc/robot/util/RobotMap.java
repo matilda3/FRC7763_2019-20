@@ -72,6 +72,7 @@ public final class RobotMap {
 
     //timer -- test
     public static Timer timer = new Timer();
+    public static Timer timer2 = new Timer();
 
     public static void init() {
         camera = CameraServer.getInstance().startAutomaticCapture();

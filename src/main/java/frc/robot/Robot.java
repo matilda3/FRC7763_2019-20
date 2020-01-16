@@ -31,34 +31,39 @@ public class Robot extends TimedRobot {
     Telemetry.init();
   }
   @Override
-  public void autonomousInit()  {//ADD more timers? or use while?
+  public void autonomousInit()  {
     RobotMap.timer.reset();
     RobotMap.timer.start();
-    //int range = RobotMap.distSensor.
+
+    RobotMap.timer2.reset();
   }
 
   @Override
   public void autonomousPeriodic() {
-    //competition autonomous
     if(RobotMap.timer.get() < 15.0){
       //go forward for 1 second - may change
       while(RobotMap.timer.get() < 1.0){
-        RobotMap.diffDrive.arcadeDrive(-0.5, 0.0);//ADD numbers for speed/rot
+        RobotMap.diffDrive.arcadeDrive(-0.5, 0.0);//good
       }
       //turns it 90 degrees. CHECK direction -/+
       while(RobotMap.timer.get() < 2.0 && RobotMap.timer.get() > 1.0){
-        RobotMap.diffDrive.arcadeDrive(-0.7, -0.5);
+        RobotMap.diffDrive.arcadeDrive(-0.7, -0.5);//good
       }
       //middle of hole is ca 250cm away from the wall (est.)
       while(RobotMap.distSensor.read() > 2.5){
-        //also PLACEHOLDER we can't test speed / distance yet
         //drive forward until 250 cm from wall
         RobotMap.diffDrive.arcadeDrive(-0.5, 0.0);
       }
-      //RobotMap.DiffDrive.arcadeDrive()
+      RobotMap.timer2.start();
+      while(RobotMap.timer2.get() < 1.0){
+        RobotMap.diffDrive.arcadeDrive(-0.7, -0.5);//turn toward hole
+      }
+      while(RobotMap.distSensor.read() > 0.5){
+        RobotMap.diffDrive.arcadeDrive(-0.5, 0.0);//drive toward hole
+      }
+      RobotMap.diffDrive.arcadeDrive(0.0, 0.0);//STOP
     }
-
-    RobotMap.diffDrive.arcadeDrive(0.0, 0.0);
+    RobotMap.diffDrive.arcadeDrive(0.0, 0.0);//STOP
   }
 
   @Override
