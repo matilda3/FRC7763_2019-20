@@ -14,6 +14,7 @@ package frc.robot.util;
 
 import frc.robot.controllers.DriveControl;
 import frc.robot.controllers.LiftControl;
+//import frc.robot.controllers.Conveyor;
 import frc.robot.sensors.UltrasonicSensor;
 
 import com.ctre.phoenix.motorcontrol.can.*;
@@ -61,6 +62,12 @@ public final class RobotMap {
     private static final DigitalInput lowerSwitch = new DigitalInput(1);
     public static final LiftControl liftController = new LiftControl(upperSwitch, lowerSwitch, false);
     
+
+    //conveyor belt
+    //NEED: motorcontroller type + ports
+    /*public static final VictorSP conveyorMotor = new VictorSP(1);
+    public static final Conveyor conveyorController = new Conveyor();*/
+
     public static boolean arcade = true;
 
     //timer -- test
