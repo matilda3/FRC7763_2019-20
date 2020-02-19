@@ -13,6 +13,10 @@ import edu.wpi.first.wpilibj.drive.*;
  * Class to contain all robot parts. Increases organization and reduces occurances of magic numbers.
  */
 public final class RobotMap {
+
+    //public static final TalonSRX rampMotor = new TalonSRX(7);
+    public static final TalonSRX beavertail = new TalonSRX(7);
+
     private static final WPI_VictorSPX motorFL = new WPI_VictorSPX(0);
     private static final WPI_VictorSPX motorRL = new WPI_VictorSPX(1);
     private static final WPI_VictorSPX motorFR = new WPI_VictorSPX(2);
@@ -43,6 +47,9 @@ public final class RobotMap {
     /*public static final VictorSP conveyorMotor = new VictorSP(1);
     public static final Conveyor conveyorController = new Conveyor();*/
 
+    //servo for basile's thing
+    //public static final Servo servo1 = new Servo(2);
+
     public static boolean arcade = true;
 
     //timer -- test
@@ -50,6 +57,9 @@ public final class RobotMap {
 
     //colours
     public static String colorString = "";
+
+    //ultrasonic
+    public static Ultrasonic ultrasonic = new Ultrasonic(9, 8);
     
 
     public static void init() {

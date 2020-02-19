@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 //import com.revrobotics.ColorMatchResult;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -32,12 +34,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    RobotMap.timer.reset();
-    RobotMap.timer.start();
+    RobotMap.ultrasonic.setAutomaticMode(true);
   }
 
   @Override
   public void autonomousPeriodic() {
+    System.out.println(RobotMap.ultrasonic.getRangeMM());
+    if(RobotMap.ultrasonic.getRangeMM() > 500){
+      RobotMap.beavertail.set(ControlMode.PercentOutput, 0.1);
+    }else{
+      RobotMap.beavertail.set(ControlMode.PercentOutput, 0.0);
+    }
   }
 
   @Override
@@ -46,9 +53,22 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    while(RobotMap.joystick.getRawButton(3)){
-      System.out.println("Button is being pressed");
+    while(RobotMap.joystick.getRawButton(5)){
+      RobotMap.timer.reset();
+      RobotMap.timer.start();
+      System.out.println("Button 5");
+      while(RobotMap.timer.get() < 0.763){
+        RobotMap.beavertail.set(ControlMode.PercentOutput, 0.1);
+        System.out.println("motor should move for 1 sec");
+      }
     }
+    RobotMap.beavertail.set(ControlMode.PercentOutput, 0.0);
+    if(RobotMap.joystick.getRawButton(3)){
+      System.out.println("Button 3");
+      //RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.2);
+    }//else{
+      //RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
+    //}
     //RobotMap.diffDrive.arcadeDrive(0.4, 0.0);
     
     /*RobotMap.diffDrive.arcadeDrive(
