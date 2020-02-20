@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.drive.*;
  */
 public final class RobotMap {
 
-    //public static final TalonSRX rampMotor = new TalonSRX(7);
-    public static final TalonSRX beavertail = new TalonSRX(7);
+    public static final TalonSRX rampMotor = new TalonSRX(8);//ramp motor
+    public static final TalonSRX beavertail = new TalonSRX(7);//beavertail
 
     private static final WPI_VictorSPX motorFL = new WPI_VictorSPX(0);
     private static final WPI_VictorSPX motorRL = new WPI_VictorSPX(1);
@@ -39,13 +39,6 @@ public final class RobotMap {
     public static final DriveControl arcade_forwardController = new DriveControl();
     public static final DriveControl arcade_turnController = new DriveControl();
 
-    
-    
-
-    //conveyor belt
-    //NEED: motorcontroller type + ports
-    /*public static final VictorSP conveyorMotor = new VictorSP(1);
-    public static final Conveyor conveyorController = new Conveyor();*/
 
     //servo for basile's thing
     //public static final Servo servo1 = new Servo(2);

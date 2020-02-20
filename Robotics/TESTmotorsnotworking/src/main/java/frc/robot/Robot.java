@@ -35,15 +35,46 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     RobotMap.ultrasonic.setAutomaticMode(true);
+    RobotMap.timer.reset();
+    RobotMap.timer.start();
   }
 
   @Override
   public void autonomousPeriodic() {
     System.out.println(RobotMap.ultrasonic.getRangeMM());
-    if(RobotMap.ultrasonic.getRangeMM() > 500){
-      RobotMap.beavertail.set(ControlMode.PercentOutput, 0.1);
+    if(RobotMap.timer.get() < 2.0){
+      RobotMap.diffDrive.arcadeDrive(0.5, 0.0);//Drive forward for 2s
+    }
+
+    //TEST
+    else if(RobotMap.timer.get() > 2.0 && RobotMap.timer.get() < 4.2){
+      RobotMap.diffDrive.arcadeDrive(0.5, -0.5);//turn ccw, 90 deg
+    }
+
+    if(RobotMap.ultrasonic.getRangeMM() > 2500){
+      RobotMap.diffDrive.arcadeDrive(1.0, 0.0);//drive forwards until 250cm from wall
     }else{
-      RobotMap.beavertail.set(ControlMode.PercentOutput, 0.0);
+      RobotMap.diffDrive.arcadeDrive(0.0, 0.0);
+      RobotMap.timer.reset();
+      RobotMap.timer.start();
+    }
+
+    if(RobotMap.timer.get() < 2.5){
+      RobotMap.diffDrive.arcadeDrive(0.5, -0.5);//turn ccw, 90 deg
+    }else{
+      if(RobotMap.ultrasonic.getRangeMM() > 300){
+        RobotMap.diffDrive.arcadeDrive(1.0, 0.0);//drive until 30cm from wall
+      }else{
+        //NEED to drive 30 cm
+        RobotMap.timer.reset();
+        RobotMap.timer.start();
+        //dump balls
+        if(RobotMap.timer.get() > 3.0){
+          RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.2);
+        }else{
+          RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
+        }
+      }
     }
   }
 
@@ -69,11 +100,10 @@ public class Robot extends TimedRobot {
     }//else{
       //RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
     //}
-    //RobotMap.diffDrive.arcadeDrive(0.4, 0.0);
     
-    /*RobotMap.diffDrive.arcadeDrive(
+    RobotMap.diffDrive.arcadeDrive(
     RobotMap.arcade_forwardController.drive(RobotMap.joystick.getRawAxis(1) * -1),
-    RobotMap.arcade_turnController.drive(RobotMap.joystick.getRawAxis(0)));*/
+    RobotMap.arcade_turnController.drive(RobotMap.joystick.getRawAxis(0)));
   }
 
 }
