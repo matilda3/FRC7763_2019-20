@@ -16,14 +16,20 @@ public final class RobotMap {
 
     public static final TalonSRX rampMotor = new TalonSRX(8);//ramp motor
     public static final TalonSRX beavertail = new TalonSRX(7);//beavertail
+    public static final TalonSRX spool = new TalonSRX(9);//spool
+    public static boolean onOffRamp = false;
+    public static boolean onOffBeav = false;
+    public static boolean onOffSpoolU = false;
+    public static boolean onOffSpoolD = false;
 
-    private static final WPI_VictorSPX motorFL = new WPI_VictorSPX(0);
-    private static final WPI_VictorSPX motorRL = new WPI_VictorSPX(1);
+    private static final WPI_VictorSPX motorFL = new WPI_VictorSPX(4);
+    private static final WPI_VictorSPX motorRL = new WPI_VictorSPX(3);
     private static final WPI_VictorSPX motorFR = new WPI_VictorSPX(2);
-    private static final WPI_VictorSPX motorRR = new WPI_VictorSPX(3);
+    private static final WPI_VictorSPX motorRR = new WPI_VictorSPX(1);
 
     private static SpeedControllerGroup leftDrive = new SpeedControllerGroup(motorFL, motorRL);
     private static SpeedControllerGroup rightDrive = new SpeedControllerGroup(motorFR, motorRR);
+
 
     public static final Joystick joystick = new Joystick(0);
     public static final DifferentialDrive diffDrive = new DifferentialDrive(leftDrive, rightDrive);
@@ -34,6 +40,7 @@ public final class RobotMap {
     public static final double DEADZONE = 0.05;
     public static final double CONST_ACCEL = 0.1;
     public static final double PROP_ACCEL = 0.2;
+    public static final double SPEED = 1;
     public static final DriveControl tank_leftController = new DriveControl();
     public static final DriveControl tank_rightController = new DriveControl();
     public static final DriveControl arcade_forwardController = new DriveControl();
@@ -61,6 +68,7 @@ public final class RobotMap {
         motorRL.configFactoryDefault();
         motorFR.configFactoryDefault();
         motorRR.configFactoryDefault();
+
 
         //motorFL.setInverted(true);
         //motorRL.setInverted(true);

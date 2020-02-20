@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 //import frc.robot.sensors.ColourSensor;
 import frc.robot.util.RobotMap;
 
+
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -84,22 +86,50 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    while(RobotMap.joystick.getRawButton(5)){
-      RobotMap.timer.reset();
-      RobotMap.timer.start();
+    //5
+    if(RobotMap.joystick.getRawButtonPressed(5)){
+      RobotMap.onOffBeav = !RobotMap.onOffBeav;
       System.out.println("Button 5");
-      while(RobotMap.timer.get() < 0.763){
-        RobotMap.beavertail.set(ControlMode.PercentOutput, 0.1);
-        System.out.println("motor should move for 1 sec");
-      }
+      RobotMap.beavertail.set(ControlMode.PercentOutput, 0.2);
+    }else{
+      RobotMap.beavertail.set(ControlMode.PercentOutput, 0.0);
     }
     RobotMap.beavertail.set(ControlMode.PercentOutput, 0.0);
-    if(RobotMap.joystick.getRawButton(3)){
+
+    //3
+    if(RobotMap.joystick.getRawButtonPressed(3)){
+      RobotMap.onOffRamp = !RobotMap.onOffRamp;
       System.out.println("Button 3");
-      //RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.2);
-    }//else{
-      //RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
-    //}
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.2);
+    }else{
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    //2
+    if(RobotMap.joystick.getRawButtonPressed(2)){
+      RobotMap.onOffSpoolU = !RobotMap.onOffSpoolU;
+      RobotMap.timer.reset();
+      RobotMap.timer.start();
+      while(RobotMap.timer.get() < 1.0){
+        RobotMap.spool.set(ControlMode.PercentOutput, 0.2);
+      }
+      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
+    }else{
+      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    //1
+    if(RobotMap.joystick.getRawButtonPressed(1)){
+      RobotMap.onOffSpoolD = !RobotMap.onOffSpoolD;
+      RobotMap.timer.reset();
+      RobotMap.timer.start();
+      while(RobotMap.timer.get() < 1.0){
+        RobotMap.spool.set(ControlMode.PercentOutput, -0.2);
+      }
+      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
+    }else{
+      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
+    }
     
     RobotMap.diffDrive.arcadeDrive(
     RobotMap.arcade_forwardController.drive(RobotMap.joystick.getRawAxis(1) * -1),

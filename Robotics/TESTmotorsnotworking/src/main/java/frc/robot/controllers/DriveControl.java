@@ -55,7 +55,7 @@ public class DriveControl {
         accPro = Math.abs(proportional);
     }
 
-    public void setParams(double power, double offset, double dead, double constant, double proportional) {
+    public void setParams(double power, double offset, double dead, double constant, double proportional, double d) {
         this.setPow(power);
         this.setOffset(offset);
         this.setDeadzone(dead);
