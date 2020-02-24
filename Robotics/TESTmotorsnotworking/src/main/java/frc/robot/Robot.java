@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    System.out.println(RobotMap.ultrasonic.getRangeMM());
+    /*System.out.println(RobotMap.ultrasonic.getRangeMM());
     if(RobotMap.timer.get() < 2.0){
       RobotMap.diffDrive.arcadeDrive(0.5, 0.0);//Drive forward for 2s
     }
@@ -77,17 +77,18 @@ public class Robot extends TimedRobot {
           RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
         }
       }
-    }
+    }*/
   }
 
   @Override
   public void teleopInit() {
+    RobotMap.intakeUp = true;
   }
 
   @Override
   public void teleopPeriodic() {
     //5
-    if(RobotMap.joystick.getRawButtonPressed(5)){
+    /*if(RobotMap.joystick.getRawButtonPressed(5)){
       RobotMap.onOffBeav = !RobotMap.onOffBeav;
       System.out.println("Button 5");
       RobotMap.beavertail.set(ControlMode.PercentOutput, 0.2);
@@ -96,17 +97,17 @@ public class Robot extends TimedRobot {
     }
     RobotMap.beavertail.set(ControlMode.PercentOutput, 0.0);
 
-    //3
-    if(RobotMap.joystick.getRawButtonPressed(3)){
+    //2
+    if(RobotMap.joystick.getRawButtonPressed(2)){
       RobotMap.onOffRamp = !RobotMap.onOffRamp;
-      System.out.println("Button 3");
+      System.out.println("Button 2");
       RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.2);
     }else{
       RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
-    }
+    }*/
 
     //2
-    if(RobotMap.joystick.getRawButtonPressed(2)){
+    /*if(RobotMap.joystick.getRawButtonPressed(2)){
       RobotMap.onOffSpoolU = !RobotMap.onOffSpoolU;
       RobotMap.timer.reset();
       RobotMap.timer.start();
@@ -129,8 +130,47 @@ public class Robot extends TimedRobot {
       RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
     }else{
       RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
+    }*/
+
+
+  
+    
+    //button 3 - ramp backwards
+    if(RobotMap.joystick.getRawButton(3)){
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, -0.8);
+    }else{
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
     }
     
+    //button 10 - servo up
+    RobotMap.servo1.setAngle(90);
+
+    //button 9 - servo down
+    RobotMap.servo1.setAngle(0);
+
+    
+    //button 1 - intake
+    if(RobotMap.joystick.getRawButton(1)){
+      RobotMap.intake.set(ControlMode.PercentOutput, -1.0);
+    }else{
+      RobotMap.intake.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    //button 5 - intake backwards
+    if(RobotMap.joystick.getRawButton(5)){
+      RobotMap.intake.set(ControlMode.PercentOutput, 1.0);
+    }else{
+      RobotMap.intake.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    //button 2 - ramp
+    if(RobotMap.joystick.getRawButton(2)){
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.5);
+    }else{
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    //regular driving
     RobotMap.diffDrive.arcadeDrive(
     RobotMap.arcade_forwardController.drive(RobotMap.joystick.getRawAxis(1) * -1),
     RobotMap.arcade_turnController.drive(RobotMap.joystick.getRawAxis(0)));
