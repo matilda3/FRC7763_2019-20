@@ -1,85 +1,179 @@
-package frc.robot.util;
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
 
-import frc.robot.controllers.DriveControl;
-//import frc.robot.controllers.Conveyor;
+package frc.robot;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
+//import com.revrobotics.ColorMatchResult;
+
+import edu.wpi.first.wpilibj.TimedRobot;
+//import edu.wpi.first.wpilibj.util.Color;
 //import frc.robot.sensors.ColourSensor;
+import frc.robot.util.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.can.*;
 
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.drive.*;
 
 /**
- * Class to contain all robot parts. Increases organization and reduces occurances of magic numbers.
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to each mode, as described in the TimedRobot
+ * documentation. If you change the name of this class or the package after
+ * creating this project, you must also update the build.gradle file in the
+ * project.
  */
-public final class RobotMap {
+public class Robot extends TimedRobot {
+  /**
+   * This function is run when the robot is first started up and should be used
+   * for any initialization code.
+   */
+  @Override
+  public void robotInit() {
+  }
 
-    public static final TalonSRX rampMotor = new TalonSRX(8);//ramp motor
-    public static final TalonSRX beavertail = new TalonSRX(7);//beavertail
-    public static final TalonSRX spool = new TalonSRX(9);//spool
-    public static boolean onOffRamp = false;
-    public static boolean onOffBeav = false;
-    public static boolean onOffSpoolU = false;
-    public static boolean onOffSpoolD = false;
+  @Override
+  public void autonomousInit() {
+    RobotMap.ultrasonic.setAutomaticMode(true);
+    RobotMap.timer.reset();
+    RobotMap.timer.start();
+  }
 
-    private static final WPI_VictorSPX motorFL = new WPI_VictorSPX(4);
-    private static final WPI_VictorSPX motorRL = new WPI_VictorSPX(3);
-    private static final WPI_VictorSPX motorFR = new WPI_VictorSPX(2);
-    private static final WPI_VictorSPX motorRR = new WPI_VictorSPX(1);
-
-    private static SpeedControllerGroup leftDrive = new SpeedControllerGroup(motorFL, motorRL);
-    private static SpeedControllerGroup rightDrive = new SpeedControllerGroup(motorFR, motorRR);
-
-
-    public static final Joystick joystick = new Joystick(0);
-    public static final DifferentialDrive diffDrive = new DifferentialDrive(leftDrive, rightDrive);
-
-    
-    public static final double POWER = 2;
-    public static final double OFFSET = 0.28;
-    public static final double DEADZONE = 0.05;
-    public static final double CONST_ACCEL = 0.1;
-    public static final double PROP_ACCEL = 0.2;
-    public static final double SPEED = 1;
-    public static final DriveControl tank_leftController = new DriveControl();
-    public static final DriveControl tank_rightController = new DriveControl();
-    public static final DriveControl arcade_forwardController = new DriveControl();
-    public static final DriveControl arcade_turnController = new DriveControl();
-
-
-    //servo for basile's thing
-    //public static final Servo servo1 = new Servo(2);
-
-    public static boolean arcade = true;
-
-    //timer -- test
-    public static Timer timer = new Timer();
-
-    //colours
-    public static String colorString = "";
-
-    //ultrasonic
-    public static Ultrasonic ultrasonic = new Ultrasonic(9, 8);
-    
-
-    public static void init() {
-
-        motorFL.configFactoryDefault();
-        motorRL.configFactoryDefault();
-        motorFR.configFactoryDefault();
-        motorRR.configFactoryDefault();
-
-
-        //motorFL.setInverted(true);
-        //motorRL.setInverted(true);
-
-        //diffDrive.setRightSideInverted(false); // true by default
-
-        //colors
-        /*ColourSensor.m_colorMatcher.addColorMatch(ColourSensor.blueTarget);
-        ColourSensor.m_colorMatcher.addColorMatch(ColourSensor.greenTarget);
-        ColourSensor.m_colorMatcher.addColorMatch(ColourSensor.redTarget);
-        ColourSensor.m_colorMatcher.addColorMatch(ColourSensor.yellowTarget);*/
+  @Override
+  public void autonomousPeriodic() {
+    /*System.out.println(RobotMap.ultrasonic.getRangeMM());
+    if(RobotMap.timer.get() < 2.0){
+      RobotMap.diffDrive.arcadeDrive(0.5, 0.0);//Drive forward for 2s
     }
+
+    //TEST
+    else if(RobotMap.timer.get() > 2.0 && RobotMap.timer.get() < 4.2){
+      RobotMap.diffDrive.arcadeDrive(0.5, -0.5);//turn ccw, 90 deg
+    }
+
+    if(RobotMap.ultrasonic.getRangeMM() > 2500){
+      RobotMap.diffDrive.arcadeDrive(1.0, 0.0);//drive forwards until 250cm from wall
+    }else{
+      RobotMap.diffDrive.arcadeDrive(0.0, 0.0);
+      RobotMap.timer.reset();
+      RobotMap.timer.start();
+    }
+
+    if(RobotMap.timer.get() < 2.5){
+      RobotMap.diffDrive.arcadeDrive(0.5, -0.5);//turn ccw, 90 deg
+    }else{
+      if(RobotMap.ultrasonic.getRangeMM() > 300){
+        RobotMap.diffDrive.arcadeDrive(1.0, 0.0);//drive until 30cm from wall
+      }else{
+        //NEED to drive 30 cm
+        RobotMap.timer.reset();
+        RobotMap.timer.start();
+        //dump balls
+        if(RobotMap.timer.get() > 3.0){
+          RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.2);
+        }else{
+          RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
+        }
+      }
+    }*/
+  }
+
+  @Override
+  public void teleopInit() {
+    RobotMap.intakeUp = true;
+  }
+
+  @Override
+  public void teleopPeriodic() {
+    //5
+    /*if(RobotMap.joystick.getRawButtonPressed(5)){
+      RobotMap.onOffBeav = !RobotMap.onOffBeav;
+      System.out.println("Button 5");
+      RobotMap.beavertail.set(ControlMode.PercentOutput, 0.2);
+    }else{
+      RobotMap.beavertail.set(ControlMode.PercentOutput, 0.0);
+    }
+    RobotMap.beavertail.set(ControlMode.PercentOutput, 0.0);
+
+    //2
+    if(RobotMap.joystick.getRawButtonPressed(2)){
+      RobotMap.onOffRamp = !RobotMap.onOffRamp;
+      System.out.println("Button 2");
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.2);
+    }else{
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
+    }*/
+
+    //2
+    /*if(RobotMap.joystick.getRawButtonPressed(2)){
+      RobotMap.onOffSpoolU = !RobotMap.onOffSpoolU;
+      RobotMap.timer.reset();
+      RobotMap.timer.start();
+      while(RobotMap.timer.get() < 1.0){
+        RobotMap.spool.set(ControlMode.PercentOutput, 0.2);
+      }
+      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
+    }else{
+      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    //1
+    if(RobotMap.joystick.getRawButtonPressed(1)){
+      RobotMap.onOffSpoolD = !RobotMap.onOffSpoolD;
+      RobotMap.timer.reset();
+      RobotMap.timer.start();
+      while(RobotMap.timer.get() < 1.0){
+        RobotMap.spool.set(ControlMode.PercentOutput, -0.2);
+      }
+      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
+    }else{
+      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
+    }*/
+
+
+  
+    
+    //button 3 - ramp backwards
+    if(RobotMap.joystick.getRawButton(3)){
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, -0.8);
+    }else{
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
+    }
+    
+    //button 10 - servo up
+    RobotMap.servo1.setAngle(90);
+
+    //button 9 - servo down
+    RobotMap.servo1.setAngle(0);
+
+    
+    //button 1 - intake
+    if(RobotMap.joystick.getRawButton(1)){
+      RobotMap.intake.set(ControlMode.PercentOutput, -1.0);
+    }else{
+      RobotMap.intake.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    //button 5 - intake backwards
+    if(RobotMap.joystick.getRawButton(5)){
+      RobotMap.intake.set(ControlMode.PercentOutput, 1.0);
+    }else{
+      RobotMap.intake.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    //button 2 - ramp
+    if(RobotMap.joystick.getRawButton(2)){
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.5);
+    }else{
+      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    //regular driving
+    RobotMap.diffDrive.arcadeDrive(
+    RobotMap.arcade_forwardController.drive(RobotMap.joystick.getRawAxis(1) * -1),
+    RobotMap.arcade_turnController.drive(RobotMap.joystick.getRawAxis(0)));
+  }
 
 }
