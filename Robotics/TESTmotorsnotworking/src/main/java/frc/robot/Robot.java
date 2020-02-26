@@ -9,12 +9,21 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
+
 //import com.revrobotics.ColorMatchResult;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 //import edu.wpi.first.wpilibj.util.Color;
 //import frc.robot.sensors.ColourSensor;
 import frc.robot.util.RobotMap;
+import frc.robot.util.Telemetry;
 
 
 
@@ -32,6 +41,22 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    new Thread(() -> {
+      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+      camera.setResolution(640, 480);
+
+      CvSink cvSink = CameraServer.getInstance().getVideo();
+      CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+
+      Mat source = new Mat();
+      Mat output = new Mat();
+
+      while(!Thread.interrupted()) {
+          cvSink.grabFrame(source);
+          Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+          outputStream.putFrame(output);
+      }
+  }).start();
   }
 
   @Override
@@ -43,14 +68,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    /*System.out.println(RobotMap.ultrasonic.getRangeMM());
+    System.out.println(RobotMap.ultrasonic.getRangeMM());
     if(RobotMap.timer.get() < 2.0){
-      RobotMap.diffDrive.arcadeDrive(0.5, 0.0);//Drive forward for 2s
+      //RobotMap.diffDrive.arcadeDrive(-0.7, 0.0);//Drive forward for 2s
     }
 
     //TEST
-    else if(RobotMap.timer.get() > 2.0 && RobotMap.timer.get() < 4.2){
-      RobotMap.diffDrive.arcadeDrive(0.5, -0.5);//turn ccw, 90 deg
+    else if(RobotMap.timer.get() > 2.0 && RobotMap.timer.get() < 3.44){
+      RobotMap.diffDrive.arcadeDrive(-0.5, -0.5);//turn ccw, 90 deg
     }
 
     if(RobotMap.ultrasonic.getRangeMM() > 2500){
@@ -62,8 +87,8 @@ public class Robot extends TimedRobot {
     }
 
     //TEST
-    if(RobotMap.timer.get() < 2.5){
-      RobotMap.diffDrive.arcadeDrive(0.5, -0.5);//turn ccw, 90 deg
+    if(RobotMap.timer.get() < 1.44){
+      RobotMap.diffDrive.arcadeDrive(-0.5, -0.5);//turn ccw, 90 deg
     }else{
       if(RobotMap.ultrasonic.getRangeMM() > 300){
         RobotMap.diffDrive.arcadeDrive(1.0, 0.0);//drive until 30cm from wall
@@ -71,6 +96,11 @@ public class Robot extends TimedRobot {
         //NEED to drive 30 cm
         RobotMap.timer.reset();
         RobotMap.timer.start();
+        if(RobotMap.timer.get() < 0.5){
+      RobotMap.diffDrive.arcadeDrive(0.5, 0.0);
+        }else{
+          RobotMap.diffDrive.arcadeDrive(0.0, 0.0);
+        }
         //dump balls
         //don't actually need timer for rampM, can just GO
         if(RobotMap.timer.get() > 3.0){
@@ -79,17 +109,19 @@ public class Robot extends TimedRobot {
           RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
         }
       }
-    }*/
+    }
   }
 
   @Override
   public void teleopInit() {
     RobotMap.intakeSpinning = false;
     RobotMap.intakeUp = true;
+    Telemetry.init();
   }
 
   @Override
   public void teleopPeriodic() {
+    Telemetry.update();
     /*U CAN ONLY PUT ONE BUTTON PER MOTOR AND IT'S SHIT
      = NO REVERSE BUTTONS*/
 
