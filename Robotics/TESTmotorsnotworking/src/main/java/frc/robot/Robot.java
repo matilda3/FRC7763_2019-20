@@ -70,46 +70,31 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     System.out.println(RobotMap.ultrasonic.getRangeMM());
     if(RobotMap.timer.get() < 2.0){
-      //RobotMap.diffDrive.arcadeDrive(-0.7, 0.0);//Drive forward for 2s
+      RobotMap.diffDrive.arcadeDrive(-0.4, 0.0);//Drive forward for 2s
     }
-
-    //TEST
     else if(RobotMap.timer.get() > 2.0 && RobotMap.timer.get() < 3.44){
       RobotMap.diffDrive.arcadeDrive(-0.5, -0.5);//turn ccw, 90 deg
     }
-
-    if(RobotMap.ultrasonic.getRangeMM() > 2500){
+    else if(RobotMap.timer.get() > 3.44 && RobotMap.ultrasonic.getRangeMM() > 2500){
       RobotMap.diffDrive.arcadeDrive(1.0, 0.0);//drive forwards until 250cm from wall
-    }else{
-      RobotMap.diffDrive.arcadeDrive(0.0, 0.0);
+    }
+    else if(RobotMap.ultrasonic.getRangeMM() < 2500){
+      //RobotMap.diffDrive.arcadeDrive(0.0, 0.0);
       RobotMap.timer.reset();
       RobotMap.timer.start();
-    }
-
-    //TEST
-    if(RobotMap.timer.get() < 1.44){
-      RobotMap.diffDrive.arcadeDrive(-0.5, -0.5);//turn ccw, 90 deg
-    }else{
-      if(RobotMap.ultrasonic.getRangeMM() > 300){
-        RobotMap.diffDrive.arcadeDrive(1.0, 0.0);//drive until 30cm from wall
+      if(RobotMap.timer.get() < 1.44){
+        RobotMap.diffDrive.arcadeDrive(-0.5, -0.5);
       }else{
-        //NEED to drive 30 cm
         RobotMap.timer.reset();
         RobotMap.timer.start();
         if(RobotMap.timer.get() < 0.5){
-      RobotMap.diffDrive.arcadeDrive(0.5, 0.0);
-        }else{
-          RobotMap.diffDrive.arcadeDrive(0.0, 0.0);
-        }
-        //dump balls
-        //don't actually need timer for rampM, can just GO
-        if(RobotMap.timer.get() > 3.0){
-          RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.9);
-        }else{
-          RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
-        }
+          RobotMap.diffDrive.arcadeDrive(0.5, 0.0);
+      }else{
+        RobotMap.diffDrive.arcadeDrive(0.0, 0.0);
+        RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.5);
       }
     }
+  }
   }
 
   @Override
