@@ -17,6 +17,8 @@ public final class RobotMap {
     public static final TalonSRX rampMotor = new TalonSRX(7);//ramp motor
     public static final TalonSRX intake = new TalonSRX(6);//intake
     public static final TalonSRX spool = new TalonSRX(2);//spool
+    //toggles if the intake is spinning
+    public static boolean intakeSpinning;
     /*public static final TalonSRX beavertail = new TalonSRX(7);//beavertail
     public static final TalonSRX spool = new TalonSRX(9);//spool
     public static boolean onOffRamp = false;
@@ -25,7 +27,6 @@ public final class RobotMap {
     public static boolean onOffSpoolD = false;*/
 
     public static boolean intakeUp;
-    public static final TalonSRX test = new TalonSRX(7);
 
     public static final WPI_VictorSPX motorFL = new WPI_VictorSPX(1);
     private static final WPI_VictorSPX motorRL = new WPI_VictorSPX(2);
@@ -66,7 +67,6 @@ public final class RobotMap {
 
     //ultrasonic
     public static Ultrasonic ultrasonic = new Ultrasonic(9, 8);
-    
 
     public static void init() {
 
