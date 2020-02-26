@@ -61,6 +61,7 @@ public class Robot extends TimedRobot {
       RobotMap.timer.start();
     }
 
+    //TEST
     if(RobotMap.timer.get() < 2.5){
       RobotMap.diffDrive.arcadeDrive(0.5, -0.5);//turn ccw, 90 deg
     }else{
@@ -71,8 +72,9 @@ public class Robot extends TimedRobot {
         RobotMap.timer.reset();
         RobotMap.timer.start();
         //dump balls
+        //don't actually need timer for rampM, can just GO
         if(RobotMap.timer.get() > 3.0){
-          RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.2);
+          RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.9);
         }else{
           RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
         }
@@ -82,93 +84,66 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    RobotMap.intakeSpinning = false;
     RobotMap.intakeUp = true;
   }
 
   @Override
   public void teleopPeriodic() {
-    //5
-    /*if(RobotMap.joystick.getRawButtonPressed(5)){
-      RobotMap.onOffBeav = !RobotMap.onOffBeav;
-      System.out.println("Button 5");
-      RobotMap.beavertail.set(ControlMode.PercentOutput, 0.2);
-    }else{
-      RobotMap.beavertail.set(ControlMode.PercentOutput, 0.0);
-    }
-    RobotMap.beavertail.set(ControlMode.PercentOutput, 0.0);
+    /*U CAN ONLY PUT ONE BUTTON PER MOTOR AND IT'S SHIT
+     = NO REVERSE BUTTONS*/
 
-    //2
-    if(RobotMap.joystick.getRawButtonPressed(2)){
-      RobotMap.onOffRamp = !RobotMap.onOffRamp;
-      System.out.println("Button 2");
-      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.2);
-    }else{
-      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
-    }*/
-
-    //2
-    /*if(RobotMap.joystick.getRawButtonPressed(2)){
-      RobotMap.onOffSpoolU = !RobotMap.onOffSpoolU;
-      RobotMap.timer.reset();
-      RobotMap.timer.start();
-      while(RobotMap.timer.get() < 1.0){
-        RobotMap.spool.set(ControlMode.PercentOutput, 0.2);
-      }
-      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
-    }else{
-      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
-    }
-
-    //1
-    if(RobotMap.joystick.getRawButtonPressed(1)){
-      RobotMap.onOffSpoolD = !RobotMap.onOffSpoolD;
-      RobotMap.timer.reset();
-      RobotMap.timer.start();
-      while(RobotMap.timer.get() < 1.0){
-        RobotMap.spool.set(ControlMode.PercentOutput, -0.2);
-      }
-      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
-    }else{
-      RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
-    }*/
-
-
-  
-    
-    //button 3 - ramp backwards
-    if(RobotMap.joystick.getRawButton(3)){
-      RobotMap.rampMotor.set(ControlMode.PercentOutput, -0.8);
-    }else{
-      RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
-    }
-    
     //button 10 - servo up
-    RobotMap.servo1.setAngle(90);
+    if(RobotMap.joystick.getRawButtonPressed(10)){
+      RobotMap.servo1.setAngle(90);
+    }else{
+      RobotMap.servo1.setAngle(0);
+    }
 
-    //button 9 - servo down
-    RobotMap.servo1.setAngle(0);
+    //button 2 - rhys's toggle intake
+    if (RobotMap.joystick.getRawButtonPressed(2)) {
+      if (RobotMap.intakeSpinning == false){
+        System.out.println("turning on");
+        RobotMap.intake.set(ControlMode.PercentOutput, -0.5);
+        RobotMap.intakeSpinning = true;
+      } else {
+        System.out.println("turning off");
+        RobotMap.intake.set(ControlMode.PercentOutput, 0.0);
+        RobotMap.intakeSpinning = false;
+      }
+    }
 
-    
-    //button 1 - intake
+
+
+    //button 1 - ramp
     if(RobotMap.joystick.getRawButton(1)){
-      RobotMap.intake.set(ControlMode.PercentOutput, -1.0);
-    }else{
-      RobotMap.intake.set(ControlMode.PercentOutput, 0.0);
-    }
-
-    //button 5 - intake backwards
-    if(RobotMap.joystick.getRawButton(5)){
-      RobotMap.intake.set(ControlMode.PercentOutput, 1.0);
-    }else{
-      RobotMap.intake.set(ControlMode.PercentOutput, 0.0);
-    }
-
-    //button 2 - ramp
-    if(RobotMap.joystick.getRawButton(2)){
       RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.5);
     }else{
       RobotMap.rampMotor.set(ControlMode.PercentOutput, 0.0);
     }
+
+    //button 4 - intake up
+    if(RobotMap.joystick.getRawButtonPressed(4)) {
+      if (RobotMap.intakeUp == true) {
+        //System.out.println("intake going down");
+        RobotMap.timer.reset();
+        RobotMap.timer.start();
+        while(RobotMap.timer.get() < 2.0){
+          RobotMap.spool.set(ControlMode.PercentOutput, 0.6);
+        }
+        RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
+        RobotMap.intakeUp = false;
+      } else{
+        //System.out.println("intake going up");
+        RobotMap.timer.reset();
+        RobotMap.timer.start();
+        while(RobotMap.timer.get() < 0.7){
+          RobotMap.spool.set(ControlMode.PercentOutput, -0.1);
+        }
+        RobotMap.spool.set(ControlMode.PercentOutput, 0.0);
+        RobotMap.intakeUp = true;
+      }
+     }
 
     //regular driving
     RobotMap.diffDrive.arcadeDrive(
