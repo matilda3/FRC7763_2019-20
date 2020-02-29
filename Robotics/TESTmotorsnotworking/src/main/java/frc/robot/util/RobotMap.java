@@ -2,7 +2,7 @@ package frc.robot.util;
 
 import frc.robot.controllers.DriveControl;
 //import frc.robot.controllers.Conveyor;
-//import frc.robot.sensors.ColourSensor;
+import frc.robot.sensors.ColourSensor;
 
 import com.ctre.phoenix.motorcontrol.can.*;
 
@@ -17,6 +17,7 @@ public final class RobotMap {
     public static final TalonSRX rampMotor = new TalonSRX(7);//ramp motor
     public static final TalonSRX intake = new TalonSRX(6);//intake
     public static final TalonSRX spool = new TalonSRX(2);//spool
+    public static final TalonSRX spinner = new TalonSRX(0);//color spinner
     //toggles if the intake is spinning
     public static boolean intakeSpinning;
     /*public static final TalonSRX beavertail = new TalonSRX(7);//beavertail
@@ -27,6 +28,7 @@ public final class RobotMap {
     public static boolean onOffSpoolD = false;*/
 
     public static boolean intakeUp;
+    public static boolean servo0;
 
     public static final WPI_VictorSPX motorFL = new WPI_VictorSPX(1);
     private static final WPI_VictorSPX motorRL = new WPI_VictorSPX(2);
@@ -42,7 +44,7 @@ public final class RobotMap {
 
     
     public static final double POWER = 2;
-    public static final double OFFSET = 0.28;
+    public static final double OFFSET = 0.28;//og 28
     public static final double DEADZONE = 0.05;
     public static final double CONST_ACCEL = 0.1;
     public static final double PROP_ACCEL = 0.2;
@@ -54,7 +56,7 @@ public final class RobotMap {
 
 
     //servo for basile's thing
-    public static final Servo servo1 = new Servo(2);
+    public static final Servo servo1 = new Servo(0);
     //needs to go -90
 
     public static boolean arcade = true;
@@ -82,10 +84,10 @@ public final class RobotMap {
         //diffDrive.setRightSideInverted(false); // true by default
 
         //colors
-        /*ColourSensor.m_colorMatcher.addColorMatch(ColourSensor.blueTarget);
+        ColourSensor.m_colorMatcher.addColorMatch(ColourSensor.blueTarget);
         ColourSensor.m_colorMatcher.addColorMatch(ColourSensor.greenTarget);
         ColourSensor.m_colorMatcher.addColorMatch(ColourSensor.redTarget);
-        ColourSensor.m_colorMatcher.addColorMatch(ColourSensor.yellowTarget);*/
+        ColourSensor.m_colorMatcher.addColorMatch(ColourSensor.yellowTarget);
     }
 
 }
